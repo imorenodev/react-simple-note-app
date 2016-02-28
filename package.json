@@ -17,9 +17,12 @@
   },
   "homepage": "https://github.com/imorenodev/react-simple-note-app#readme",
   "dependencies": {
+    "bootstrap-webpack": "0.0.5",
+    "css-loader": "^0.23.1",
     "history": "^2.0.0",
     "react": "^0.14.7",
-    "react-router": "^2.0.0"
+    "react-router": "^2.0.0",
+    "style-loader": "^0.13.0"
   },
   "devDependencies": {
     "babel-core": "^6.5.2",
