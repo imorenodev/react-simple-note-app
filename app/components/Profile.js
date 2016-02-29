@@ -5,6 +5,7 @@ var Notes = require('./Notes/Notes');
 var Router = require('react-router');
 var ReactFireMixin = require('reactfire');
 var Firebase = require('firebase');
+var helpers = require('../utils/helpers');
 
 //component will manage user profile, repos, and notes components
 var Profile = React.createClass({
@@ -14,10 +15,8 @@ var Profile = React.createClass({
   getInitialState: function(){
     return {
       notes: [1,2,3],
-      bio: {
-        name: 'tyler'
-      },
-      repos: ['a', 'b', 'c']
+      bio: {},
+      repos: []
     };
   },
   //component lifecycle event will be called as soon as the view is mounted
@@ -29,6 +28,15 @@ var Profile = React.createClass({
     //bindAsArray is a firebase method added to the 'this' instance
     //bindAsArray takes two arguments, a reference to the firebase, and a property on state to bind the firebase data to.
     this.bindAsArray(childRef, 'notes');
+
+    //get github information and set bio and repos proerties
+    helpers.getGithubInfo(this.props.params.username)
+      .then(function(data){
+        this.setState({
+          bio: bio.data,
+          repos: repos.data
+        })
+      }.bind(this));
   },
   componentWillUnmount: function(){
     //calls reactfire method 'unbind' to remove the listener after the component moves on
