@@ -24772,8 +24772,8 @@
 	var Repos = __webpack_require__(221);
 	var Notes = __webpack_require__(222);
 	var Router = __webpack_require__(159);
-	var ReactFireMixin = __webpack_require__(223);
-	var Firebase = __webpack_require__(224);
+	var ReactFireMixin = __webpack_require__(224);
+	var Firebase = __webpack_require__(225);
 
 	//component will manage user profile, repos, and notes components
 	var Profile = React.createClass({
@@ -24802,6 +24802,7 @@
 	    this.bindAsArray(childRef, 'notes');
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
+	    //calls reactfire method 'unbind' to remove the listener after the component moves on
 	    this.unbind('notes');
 	  },
 
@@ -24910,20 +24911,22 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var NotesList = __webpack_require__(223);
 
 	var Notes = React.createClass({
 	  displayName: 'Notes',
 
 	  render: function render() {
-	    console.log('Notes: ' + this.props.notes);
 	    return React.createElement(
 	      'div',
 	      null,
 	      React.createElement(
-	        'p',
+	        'h3',
 	        null,
-	        'NOTES'
-	      )
+	        'Notes for ',
+	        this.props.username
+	      ),
+	      React.createElement(NotesList, { notes: this.props.notes })
 	    );
 	  }
 	});
@@ -24932,6 +24935,35 @@
 
 /***/ },
 /* 223 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var NotesList = React.createClass({
+	  displayName: 'NotesList',
+
+	  render: function render() {
+	    var notes = this.props.notes.map(function (note, index) {
+	      return React.createElement(
+	        'li',
+	        { className: 'list-group-item', key: index },
+	        note['.value']
+	      );
+	    });
+	    return React.createElement(
+	      'ul',
+	      { className: 'list-group' },
+	      notes
+	    );
+	  }
+	});
+
+	module.exports = NotesList;
+
+/***/ },
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -25302,7 +25334,7 @@
 
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports) {
 
 	/*! @license Firebase v2.4.1

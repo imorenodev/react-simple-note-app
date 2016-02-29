@@ -31,6 +31,7 @@ var Profile = React.createClass({
     this.bindAsArray(childRef, 'notes');
   },
   componentWillUnmount: function(){
+    //calls reactfire method 'unbind' to remove the listener after the component moves on 
     this.unbind('notes');
   },
 
