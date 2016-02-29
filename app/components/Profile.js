@@ -31,8 +31,13 @@ var Profile = React.createClass({
     this.bindAsArray(childRef, 'notes');
   },
   componentWillUnmount: function(){
-    //calls reactfire method 'unbind' to remove the listener after the component moves on 
+    //calls reactfire method 'unbind' to remove the listener after the component moves on
     this.unbind('notes');
+  },
+  //function to be passed down to child components to be invoked by them later on
+  handleAddNote: function(newNote){
+    // username/number of items in array and append a newNote to end of the firebase
+    this.ref.child(this.props.params.username).child(this.state.notes.length).set(newNote);
   },
 
   render: function(){
@@ -46,7 +51,7 @@ var Profile = React.createClass({
             <Repos username={this.props.params.username} repos={this.state.repos} />
           </div>
           <div className="col-md-4">
-            <Notes username={this.props.params.username} notes={this.state.notes} />
+            <Notes username={this.props.params.username} notes={this.state.notes} addNote={this.handleAddNote} />
           </div>
         </div>
       </div>

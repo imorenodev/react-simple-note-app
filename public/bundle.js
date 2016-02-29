@@ -24772,8 +24772,8 @@
 	var Repos = __webpack_require__(221);
 	var Notes = __webpack_require__(222);
 	var Router = __webpack_require__(159);
-	var ReactFireMixin = __webpack_require__(224);
-	var Firebase = __webpack_require__(225);
+	var ReactFireMixin = __webpack_require__(225);
+	var Firebase = __webpack_require__(226);
 
 	//component will manage user profile, repos, and notes components
 	var Profile = React.createClass({
@@ -24805,6 +24805,11 @@
 	    //calls reactfire method 'unbind' to remove the listener after the component moves on
 	    this.unbind('notes');
 	  },
+	  //function to be passed down to child components to be invoked by them later on
+	  handleAddNote: function handleAddNote(newNote) {
+	    // username/number of items in array and append a newNote to end of the firebase
+	    this.ref.child(this.props.params.username).child(this.state.notes.length).set(newNote);
+	  },
 
 	  render: function render() {
 	    return React.createElement(
@@ -24826,7 +24831,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'col-md-4' },
-	          React.createElement(Notes, { username: this.props.params.username, notes: this.state.notes })
+	          React.createElement(Notes, { username: this.props.params.username, notes: this.state.notes, addNote: this.handleAddNote })
 	        )
 	      )
 	    );
@@ -24920,13 +24925,15 @@
 
 	var React = __webpack_require__(1);
 	var NotesList = __webpack_require__(223);
+	var AddNote = __webpack_require__(224);
 
 	var Notes = React.createClass({
 	  displayName: 'Notes',
 
 	  propTypes: {
 	    username: React.PropTypes.string.isRequired,
-	    notes: React.PropTypes.array.isRequired
+	    notes: React.PropTypes.array.isRequired,
+	    addNote: React.PropTypes.func.isRequired
 	  },
 	  render: function render() {
 	    return React.createElement(
@@ -24938,6 +24945,7 @@
 	        'Notes for ',
 	        this.props.username
 	      ),
+	      React.createElement(AddNote, { username: this.props.username, addNote: this.props.addNote }),
 	      React.createElement(NotesList, { notes: this.props.notes })
 	    );
 	  }
@@ -24976,6 +24984,55 @@
 
 /***/ },
 /* 224 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(1);
+
+	var AddNote = React.createClass({
+	  displayName: "AddNote",
+
+	  propTypes: {
+	    username: React.PropTypes.string.isRequired,
+	    addNote: React.PropTypes.func.isRequired
+	  },
+	  //passed specific ref from the input field and adds it as a property
+	  setRef: function setRef(ref) {
+	    this.note = ref;
+	  },
+	  handleSubmit: function handleSubmit() {
+	    //save the value of this.note in var newNote
+	    //this.note.value grabs the value of the this.note from the setRef function
+	    //the setRef function grabs the ref value from the input field
+	    var newNote = this.note.value;
+	    //clear the value of this.note by passing empty string
+	    this.note.value = "";
+	    //pass newNote to the passed down function addNote
+	    this.props.addNote(newNote);
+	  },
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      { className: "input-group" },
+	      React.createElement("input", { type: "text", className: "form-control", placeholder: "Add New Note", ref: this.setRef }),
+	      React.createElement(
+	        "span",
+	        { className: "input-group-btn" },
+	        React.createElement(
+	          "button",
+	          { className: "btn btn-default", type: "button", onClick: this.handleSubmit },
+	          "Submit"
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = AddNote;
+
+/***/ },
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -25346,7 +25403,7 @@
 
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports) {
 
 	/*! @license Firebase v2.4.1
