@@ -26,6 +26,7 @@ var Profile = React.createClass({
     this.init(this.props.params.username);
   },
   componentWillReceiveProps: function(nextProps){
+    this.unbind('notes');
     this.init(nextProps.params.username);
   },
   componentWillUnmount: function(){
@@ -47,7 +48,7 @@ var Profile = React.createClass({
           repos: data.repos
         })
       }.bind(this));
-  }
+  },
   //function to be passed down to child components to be invoked by them later on
   handleAddNote: function(newNote){
     // username/number of items in array and append a newNote to end of the firebase
