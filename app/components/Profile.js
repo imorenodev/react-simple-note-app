@@ -5,7 +5,7 @@ var Notes = require('./Notes/Notes');
 var Router = require('react-router');
 var ReactFireMixin = require('reactfire');
 var Firebase = require('firebase');
-var helpers = require('../utils/helpers');
+import getGithubInfo from '../utils/helpers';
 
 //component will manage user profile, repos, and notes components
 var Profile = React.createClass({
@@ -41,7 +41,7 @@ var Profile = React.createClass({
     this.bindAsArray(childRef, 'notes');
 
     //get github information and set bio and repos proerties
-    helpers.getGithubInfo(username)
+    getGithubInfo(username)
       .then(function(data){
         this.setState({
           bio: data.bio,
