@@ -33,8 +33,8 @@ var Profile = React.createClass({
     helpers.getGithubInfo(this.props.params.username)
       .then(function(data){
         this.setState({
-          bio: bio.data,
-          repos: repos.data
+          bio: data.bio,
+          repos: data.repos
         })
       }.bind(this));
   },

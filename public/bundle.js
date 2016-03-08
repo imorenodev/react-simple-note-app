@@ -24855,8 +24855,8 @@
 	    //get github information and set bio and repos proerties
 	    helpers.getGithubInfo(this.props.params.username).then(function (data) {
 	      this.setState({
-	        bio: bio.data,
-	        repos: repos.data
+	        bio: data.bio,
+	        repos: data.repos
 	      });
 	    }.bind(this));
 	  },
@@ -24915,6 +24915,7 @@
 	    bio: React.PropTypes.object.isRequired
 	  },
 	  render: function render() {
+	    console.log(this.props.bio);
 	    return React.createElement(
 	      'div',
 	      null,
@@ -24927,13 +24928,7 @@
 	        'p',
 	        null,
 	        'Username: ',
-	        this.props.username
-	      ),
-	      React.createElement(
-	        'p',
-	        null,
-	        'Bio: ',
-	        this.props.bio.name
+	        this.props.username.name
 	      )
 	    );
 	  }
@@ -24957,6 +24952,7 @@
 	    repos: React.PropTypes.array.isRequired
 	  },
 	  render: function render() {
+	    console.log(this.props.repos);
 	    return React.createElement(
 	      'div',
 	      null,
@@ -24964,11 +24960,6 @@
 	        'p',
 	        null,
 	        'REPOS'
-	      ),
-	      React.createElement(
-	        'p',
-	        null,
-	        this.props.repos
 	      )
 	    );
 	  }
