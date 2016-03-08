@@ -24846,6 +24846,10 @@
 
 	'use strict';
 
+	var _Notes = __webpack_require__(243);
+
+	var _Notes2 = _interopRequireDefault(_Notes);
+
 	var _helpers = __webpack_require__(221);
 
 	var _helpers2 = _interopRequireDefault(_helpers);
@@ -24855,10 +24859,10 @@
 	var React = __webpack_require__(1);
 	var UserProfile = __webpack_require__(239);
 	var Repos = __webpack_require__(240);
-	var Notes = __webpack_require__(241);
+
 	var Router = __webpack_require__(159);
-	var ReactFireMixin = __webpack_require__(244);
-	var Firebase = __webpack_require__(245);
+	var ReactFireMixin = __webpack_require__(241);
+	var Firebase = __webpack_require__(242);
 
 
 	//component will manage user profile, repos, and notes components
@@ -24930,7 +24934,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'col-md-4' },
-	          React.createElement(Notes, { username: this.props.params.username, notes: this.state.notes, addNote: this.handleAddNote })
+	          React.createElement(_Notes2.default, { username: this.props.params.username, notes: this.state.notes, addNote: this.handleAddNote })
 	        )
 	      )
 	    );
@@ -26211,120 +26215,6 @@
 /* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	var React = __webpack_require__(1);
-	var NotesList = __webpack_require__(242);
-	var AddNote = __webpack_require__(243);
-
-	var Notes = React.createClass({
-	  displayName: 'Notes',
-
-	  propTypes: {
-	    username: React.PropTypes.string.isRequired,
-	    notes: React.PropTypes.array.isRequired,
-	    addNote: React.PropTypes.func.isRequired
-	  },
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(
-	        'h3',
-	        null,
-	        'Notes for ',
-	        this.props.username
-	      ),
-	      React.createElement(AddNote, { username: this.props.username, addNote: this.props.addNote }),
-	      React.createElement(NotesList, { notes: this.props.notes })
-	    );
-	  }
-	});
-
-	module.exports = Notes;
-
-/***/ },
-/* 242 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-
-	var NotesList = React.createClass({
-	  displayName: 'NotesList',
-
-	  render: function render() {
-	    var notes = this.props.notes.map(function (note, index) {
-	      return React.createElement(
-	        'li',
-	        { className: 'list-group-item', key: index },
-	        note['.value']
-	      );
-	    });
-	    return React.createElement(
-	      'ul',
-	      { className: 'list-group' },
-	      notes
-	    );
-	  }
-	});
-
-	module.exports = NotesList;
-
-/***/ },
-/* 243 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(1);
-
-	var AddNote = React.createClass({
-	  displayName: "AddNote",
-
-	  propTypes: {
-	    username: React.PropTypes.string.isRequired,
-	    addNote: React.PropTypes.func.isRequired
-	  },
-	  //passed specific ref from the input field and adds it as a property
-	  setRef: function setRef(ref) {
-	    this.note = ref;
-	  },
-	  handleSubmit: function handleSubmit() {
-	    //save the value of this.note in var newNote
-	    //this.note.value grabs the value of the this.note from the setRef function
-	    //the setRef function grabs the ref value from the input field
-	    var newNote = this.note.value;
-	    //clear the value of this.note by passing empty string
-	    this.note.value = "";
-	    //pass newNote to the passed down function addNote
-	    this.props.addNote(newNote);
-	  },
-	  render: function render() {
-	    return React.createElement(
-	      "div",
-	      { className: "input-group" },
-	      React.createElement("input", { type: "text", className: "form-control", placeholder: "Add New Note", ref: this.setRef }),
-	      React.createElement(
-	        "span",
-	        { className: "input-group-btn" },
-	        React.createElement(
-	          "button",
-	          { className: "btn btn-default", type: "button", onClick: this.handleSubmit },
-	          "Submit"
-	        )
-	      )
-	    );
-	  }
-	});
-
-	module.exports = AddNote;
-
-/***/ },
-/* 244 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	 * ReactFire is an open-source JavaScript library that allows you to add a
 	 * realtime data source to your React apps by providing an easy way to let
@@ -26693,7 +26583,7 @@
 
 
 /***/ },
-/* 245 */
+/* 242 */
 /***/ function(module, exports) {
 
 	/*! @license Firebase v2.4.1
@@ -26976,6 +26866,228 @@
 
 	module.exports = Firebase;
 
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _NotesList = __webpack_require__(244);
+
+	var _NotesList2 = _interopRequireDefault(_NotesList);
+
+	var _AddNote = __webpack_require__(245);
+
+	var _AddNote2 = _interopRequireDefault(_AddNote);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Notes = function (_React$Component) {
+	  _inherits(Notes, _React$Component);
+
+	  function Notes() {
+	    _classCallCheck(this, Notes);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Notes).apply(this, arguments));
+	  }
+
+	  _createClass(Notes, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          'Notes for ',
+	          this.props.username
+	        ),
+	        _react2.default.createElement(_AddNote2.default, { username: this.props.username, addNote: this.props.addNote }),
+	        _react2.default.createElement(_NotesList2.default, { notes: this.props.notes })
+	      );
+	    }
+	  }]);
+
+	  return Notes;
+	}(_react2.default.Component);
+
+	Notes.propTypes = {
+	  username: _react2.default.PropTypes.string.isRequired,
+	  notes: _react2.default.PropTypes.array.isRequired,
+	  addNote: _react2.default.PropTypes.func.isRequired
+	};
+
+	exports.default = Notes;
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var NotesList = function (_React$Component) {
+	  _inherits(NotesList, _React$Component);
+
+	  function NotesList() {
+	    _classCallCheck(this, NotesList);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(NotesList).apply(this, arguments));
+	  }
+
+	  _createClass(NotesList, [{
+	    key: "render",
+	    value: function render() {
+	      var notes = this.props.notes;
+
+	      return _react2.default.createElement(
+	        "ul",
+	        { className: "list-group" },
+	        notes.map(function (note, index) {
+	          return _react2.default.createElement(
+	            "li",
+	            { className: "list-group-item", key: index },
+	            note['.value']
+	          );
+	        })
+	      );
+	    }
+	  }]);
+
+	  return NotesList;
+	}(_react2.default.Component);
+
+	exports.default = NotesList;
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	//don't need commas between methods--techinically not in an object
+
+	var AddNote = function (_React$Component) {
+	  _inherits(AddNote, _React$Component);
+
+	  function AddNote() {
+	    _classCallCheck(this, AddNote);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(AddNote).apply(this, arguments));
+	  }
+
+	  _createClass(AddNote, [{
+	    key: "handleSubmit",
+	    value: function handleSubmit() {
+	      //save the value of this.note in var newNote
+	      //this.note.value grabs the value of the this.note from the setRef function
+	      //the setRef function grabs the ref value from the input field
+	      var newNote = this.note.value;
+	      //clear the value of this.note by passing empty string
+	      this.note.value = "";
+	      //pass newNote to the passed down function addNote
+	      this.props.addNote(newNote);
+	    }
+	    //passed specific ref from the input field and adds it as a property
+	    //NOTICE: using arrow function as alternative to .bind(this) pattern
+
+	  }, {
+	    key: "setRef",
+	    value: function setRef(ref) {
+	      this.note = ref;
+	    }
+
+	    //this.handleSubmit.bind(this) is because with ES6 class syntax, 'this' is not auto-bound
+	    //ensure that 'this' inside of the function context is bound correctly
+
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "input-group" },
+	        _react2.default.createElement("input", { type: "text", className: "form-control", placeholder: "Add New Note", ref: function ref(_ref) {
+	            return _this2.setRef(_ref);
+	          } }),
+	        _react2.default.createElement(
+	          "span",
+	          { className: "input-group-btn" },
+	          _react2.default.createElement(
+	            "button",
+	            { className: "btn btn-default", type: "button", onClick: this.handleSubmit.bind(this) },
+	            "Submit"
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return AddNote;
+	}(_react2.default.Component);
+	//propTypes must be set as a property on a class using ES6 class syntax
+
+
+	AddNote.propTypes = {
+	  username: _react2.default.PropTypes.string.isRequired,
+	  addNote: _react2.default.PropTypes.func.isRequired
+	};
+
+	exports.default = AddNote;
 
 /***/ }
 /******/ ]);
