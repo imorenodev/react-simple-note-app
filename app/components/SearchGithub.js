@@ -11,7 +11,7 @@ var SearchGithub = React.createClass({
     this.usernameRef.value = "";
     //history is a property on mixin Router.History
     //pushState allows us to transition to a new route
-    this.history.pushState(null, "profile/" + username);
+    this.history.pushState(null, "/profile/" + username);
   },
   render: function(){
     return (
