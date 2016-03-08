@@ -1,44 +1,49 @@
-var React = require('react');
+import React from 'react';
 import UserProfile from './Github/UserProfile';
 import Repos from './Github/Repos';
 import Notes from './Notes/Notes';
-var Router = require('react-router');
-var ReactFireMixin = require('reactfire');
-var Firebase = require('firebase');
 import getGithubInfo from '../utils/helpers';
+import Rebase from 're-base';
 
-//component will manage user profile, repos, and notes components
-var Profile = React.createClass({
-  //Mixins take the 'this' instance and mixes in functionality adding on methods to use
-  mixins: [ReactFireMixin],
-  //method will set the initial state of the component
-  getInitialState: function(){
-    return {
-      notes: [1,2,3],
+//returns an object with helper methods to interface firebase with
+const base = Rebase.createClass('https://intense-heat-9991.firebaseio.com/');
+
+class Profile extends React.Component{
+  //use constructor instead of getInitialState with ES6 classes
+  constructor(props){
+    //must call super and pass in props before using 'this' inside of a constructor
+    super(props);
+    this.state = {
+      notes: [],
       bio: {},
       repos: []
-    };
-  },
+    }
+  }
   //component lifecycle event will be called as soon as the view is mounted
-  componentDidMount: function(){
+  componentDidMount(){
     //returns an object with firebase properties, and save it on 'this' instance under the ref property
-    this.ref = new Firebase('https://intense-heat-9991.firebaseio.com/');
+
     this.init(this.props.params.username);
-  },
-  componentWillReceiveProps: function(nextProps){
-    this.unbind('notes');
+  }
+  componentWillReceiveProps(nextProps){
+    //unbind firebase
+    //pass it what's returned with you invoke bindToState
+    base.removeBinding(this.ref);
+
     this.init(nextProps.params.username);
-  },
-  componentWillUnmount: function(){
-    //calls reactfire method 'unbind' to remove the listener after the component moves on
-    this.unbind('notes');
-  },
-  init: function(username){
-    //.child is a firebase property, take the root firebase url and grab the username from 'this' state
-    var childRef = this.ref.child(username);
-    //bindAsArray is a firebase method added to the 'this' instance
-    //bindAsArray takes two arguments, a reference to the firebase, and a property on state to bind the firebase data to.
-    this.bindAsArray(childRef, 'notes');
+  }
+  componentWillUnmount(){
+    //unbind firebase
+    //pass it what's returned with you invoke bindToState
+    base.removeBinding(this.ref);
+  }
+  init(username){
+    //whenever endpoint changes in firebase it will update the notes property on the state object
+    this.ref = base.bindToState(username, {
+      context: this,
+      asArray: true,
+      state: 'notes'
+    });
 
     //get github information and set bio and repos proerties
     getGithubInfo(username)
@@ -48,14 +53,15 @@ var Profile = React.createClass({
           repos: data.repos
         })
       }.bind(this));
-  },
+  }
   //function to be passed down to child components to be invoked by them later on
-  handleAddNote: function(newNote){
+  handleAddNote(newNote){
     // username/number of items in array and append a newNote to end of the firebase
-    this.ref.child(this.props.params.username).child(this.state.notes.length).set(newNote);
-  },
-
-  render: function(){
+    base.post(this.props.params.username, {
+      data: this.state.notes.concat([newNote])
+    });
+  }
+  render(){
     return (
       <div className="container">
         <div className="row">
@@ -66,12 +72,12 @@ var Profile = React.createClass({
             <Repos username={this.props.params.username} repos={this.state.repos} />
           </div>
           <div className="col-md-4">
-            <Notes username={this.props.params.username} notes={this.state.notes} addNote={this.handleAddNote} />
+            <Notes username={this.props.params.username} notes={this.state.notes} addNote={this.handleAddNote.bind(this)} />
           </div>
         </div>
       </div>
     )
   }
-});
+}
 
-module.exports = Profile;
+export default Profile;

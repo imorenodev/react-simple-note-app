@@ -1,24 +1,24 @@
-var React = require('react');
-var Router = require('react-router');
+import React from 'react';
+import Router from 'react-router';
 
-var SearchGithub = React.createClass({
-  mixins: [Router.History],
-  getRef: function(ref){
+class SearchGithub extends React.Component{
+  getRef(ref){
     this.usernameRef = ref;
-  },
-  handleSubmit: function(){
-    var username = this.usernameRef.value;
+  }
+  handleSubmit(){
+    const username = this.usernameRef.value;
     this.usernameRef.value = "";
-    //history is a property on mixin Router.History
+    //can't use mixins using ES6 class pattern, passing down history through props from main
+    //main has access to history prop because it's being controlled by the router.
     //pushState allows us to transition to a new route
-    this.history.pushState(null, "/profile/" + username);
-  },
-  render: function(){
+    this.props.pushState(null, "/profile/" + username);
+  }
+  render(){
     return (
       <div className="col-sm-12">
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit.bind(this)}>
           <div className="form-group col-sm-7">
-            <input type="text" className="form-control" ref={this.getRef} />
+            <input type="text" className="form-control" ref={(ref) => this.getRef(ref)} />
           </div>
           <div className="form-group col-sm-5">
             <button type="submit" className="btn btn-block btn-primary">Search Github</button>
@@ -27,6 +27,10 @@ var SearchGithub = React.createClass({
       </div>
     )
   }
-});
+}
 
-module.exports = SearchGithub;
+SearchGithub.propTypes = {
+  history: React.PropTypes.object.isRequired
+}
+
+export default SearchGithub;
